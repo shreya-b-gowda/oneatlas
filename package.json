@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "tsx test-api.ts",
+    "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts"
   },
