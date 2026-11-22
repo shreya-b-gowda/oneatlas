@@ -7,6 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx test-api.ts",
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts"
   },
