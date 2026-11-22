@@ -1,0 +1,103 @@
+// ONEATLAS - Prisma Database Schema
+// Optimized for PostgreSQL (Neon / Supabase / Cloud)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AILab {
+  id           String   @id
+  name         String
+  slug         String   @unique
+  description  String
+  website      String
+  foundedYear  Int
+  headquarters String
+  logoUrl      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  models       Model[]
+
+  @@map("ai_labs")
+}
+
+model Model {
+  id              String   @id
+  name            String
+  slug            String   @unique
+  labId           String
+  description     String
+  contextWindow   Int
+  maxOutputTokens Int
+  inputPricePerM  Float
+  outputPricePerM Float
+  modelType       String   // "Proprietary" | "Open Source"
+  modalities      String[] // ["Text", "Vision", "Audio", "Code"]
+  releaseDate     String
+  isFeatured      Boolean  @default(false)
+  isTrending      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  lab             AILab           @relation(fields: [labId], references: [id], onDelete: Cascade)
+  benchmarks      Benchmark[]
+  providers       ModelProvider[]
+
+  @@map("models")
+}
+
+model Provider {
+  id                   String   @id
+  name                 String
+  slug                 String   @unique
+  description          String
+  website              String
+  supportedModelsCount Int      @default(0)
+  avgLatencyMs         Int      @default(300)
+  uptimePercentage     Float    @default(99.9)
+  isHost               Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  models               ModelProvider[]
+
+  @@map("providers")
+}
+
+model ModelProvider {
+  id             String   @id @default(cuid())
+  modelId        String
+  providerId     String
+  inputPricePerM Float
+  outputPricePerM Float
+  latencyMs      Int
+  availability   String   @default("High") // "High" | "Normal" | "Degraded"
+  createdAt      DateTime @default(now())
+
+  model          Model    @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  provider       Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([modelId, providerId])
+  @@map("model_providers")
+}
+
+model Benchmark {
+  id          String   @id @default(cuid())
+  modelId     String
+  name        String   // "MMLU" | "HumanEval" | "GSM8K" | "GPQA"
+  category    String   // "Reasoning" | "Coding" | "Mathematics" | "General Knowledge"
+  score       Float
+  maxScore    Float    @default(100.0)
+  description String?
+  createdAt   DateTime @default(now())
+
+  model       Model    @relation(fields: [modelId], references: [id], onDelete: Cascade)
+
+  @@map("benchmarks")
+}
