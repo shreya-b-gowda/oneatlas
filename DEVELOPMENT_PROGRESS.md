@@ -13,7 +13,7 @@ This document tracks the phased development lifecycle of ONEATLAS, an AI Model D
 | **2** | **UI/UX Design System & Component Library** | 🟢 COMPLETED | Build & Lint Passed | 2026-11-22 |
 | **3** | **Interactive Dashboard** | 🟢 COMPLETED | Build & Lint Passed | 2026-11-22 |
 | **4** | **Model Discovery, Advanced Search & Filtering** | 🟢 COMPLETED | Build & Lint Passed | 2026-11-22 |
-| **5** | **Dynamic Model Details & Technical Profiles** | ⏳ PENDING | Not Started | - |
+| **5** | **Dynamic Model Details & Technical Profiles** | 🟢 COMPLETED | Build & Lint Passed | 2026-11-22 |
 | **6** | **Interactive Side-by-Side Model Comparator** | ⏳ PENDING | Not Started | - |
 | **7** | **Rankings, Leaderboards & Verified Benchmarks** | ⏳ PENDING | Not Started | - |
 | **8** | **AI Labs & Provider Ecosystem Directory** | ⏳ PENDING | Not Started | - |
@@ -123,6 +123,21 @@ This document tracks the phased development lifecycle of ONEATLAS, an AI Model D
   - `npx tsc --noEmit` -> Passed with 0 errors.
   - `npm run build` -> Passed with static prerendering across all routes (`○ /`, `○ /_not-found`, `○ /models`).
 - **Status**: Completed Phase 4 Model Discovery & Verified.
+
+### Phase 5: Dynamic Model Details & Technical Profiles
+- **Objective**: Implement dynamic Next.js App Router detail pages (`/models/[id]`) with `generateStaticParams()`, technical specs grid, interactive token cost calculator, scientific benchmarks scorecards, cloud provider latencies, and 404 not-found handling.
+- **Actions Taken**:
+  - Implemented dynamic App Router route `src/app/models/[id]/page.tsx` with asynchronous `params: Promise<{ id: string }>` resolution (Next.js 15+ standard).
+  - Configured `generateStaticParams()` to pre-render static HTML for all foundation models (Claude 3.5 Sonnet, GPT-4o, Gemini 1.5 Pro, DeepSeek V3/R1, Llama 3.3, o1, Mistral Large 2, Gemini Flash) at build time.
+  - Implemented `TokenCostCalculator`: Interactive client component with slider/preset controls simulating input prompt tokens, output completion tokens, and real-time total USD expenditure.
+  - Implemented `BenchmarkScoreCard`: Visual score gauges comparing model performance across MMLU, HumanEval, GSM8K, and GPQA.
+  - Implemented Provider Endpoints Table: Displays inference hosts (OpenAI API, Google Vertex, Together AI, Groq LPU), individual rates, latency in ms, and availability pills.
+  - Implemented Custom Not-Found View (`src/app/models/[id]/not-found.tsx`): Invoked via `notFound()` for invalid model slugs.
+- **Test Results**:
+  - `npm run lint` -> Passed with 0 errors and 0 warnings.
+  - `npx tsc --noEmit` -> Passed with 0 errors.
+  - `npm run build` -> Passed with 15/15 static pages prerendered (`○ /models/model-claude-3-5-sonnet`, `○ /models/model-gpt-4o`, etc.).
+- **Status**: Completed Phase 5 Model Details & Verified.
 
 ---
 
