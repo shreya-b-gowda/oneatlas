@@ -127,6 +127,6 @@ d:/One atlas
 ---
 
 ## 👨‍💻 Author & Academic Project
-
-- **Author**: Final-Year Student, Information Science and Engineering
+ 
+- **Author**: Shreya B
 - **Focus**: Professional Full-Stack Architecture, Clean Code, Enterprise Next.js UI/UX Engineering
