@@ -143,10 +143,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile, isMobile = fals
         <div className="flex items-center justify-between px-1 text-slate-400 text-xs">
           <span className="text-[11px]">Internship Final Year</span>
           <a
-            href="https://github.com"
+            href="https://github.com/shreya-b-gowda/oneatlas"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-slate-200 transition"
+            title="View Source on GitHub"
           >
             <Code2 className="w-4 h-4" />
           </a>
